@@ -3,6 +3,10 @@ from tensorflow.keras import Model
 
 import data_handling as data
 
+# TODO:
+#  good practice is to have a scratchpad.py file
+#  that you can add to .gitignore, so that it's not tracked,
+#  and that's where you run these kinds of small experiments.
 e_netB3 = tf.keras.applications.EfficientNetB3(
     include_top=False,
     weights='imagenet',

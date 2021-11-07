@@ -4,6 +4,11 @@ from tensorflow.keras import layers
 import custom_elements as custom
 import hyperparameters as hp
 
+# TODO:
+#  create a separate Decoder() and Encoder() class
+#  that inherits from keras.Model. The one thing about
+#  your code that jumps out is not using abstraction.
+#  more info on how to do that here: https://www.tensorflow.org/guide/keras/custom_layers_and_models
 latent_space_encoding = keras.Input(shape=(hp.latent_dim,))
 x = layers.Dense(1024, activation="relu")(latent_space_encoding)
 x = layers.Reshape((4, 4, 64))(x)

@@ -34,6 +34,11 @@ def img_from_tensor(tensor):
 
 
 def save(name):
+    # TODO:
+    #  possibly consider generating a run id and adding
+    #  it to the name. Particularly useful when your logger
+    #  also saves its output to a file and then you can identify
+    #  both the logs and the model by the same id of the run of main.py
     decoder.network.save('Decoder_' + name)
     encoder.network.save('Encoder_' + name)
 

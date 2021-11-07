@@ -71,10 +71,17 @@ def train(nr_of_epochs, optimizer):
         for step, img_tensor_batch in enumerate(data.train_ds):
             loss, reconstruction_loss, kl_loss = train_step(img_tensor_batch,
                                                             optimizer)
+            # TODO:
+            #  use the logging module wherever you call print()
+            #  https://docs.python.org/3/library/logging.html
             print(f'Ep: {epoch + 1} St: {step + 1} - '
                   f'reconstruction loss = {reconstruction_loss:.2f} - '
                   f'KL divergence loss = {kl_loss:.2f} - '
                   f'total loss = {loss:.2f}')
+
+            # TODO:
+            #  good practice is is to let the number of steps
+            #  between validation / progress logging be a parameter
             if (step + 1) % 100 == 0:
                 validate(data.val_ds, 'VALIDATION')
             if (step + 1) % 1000 == 0:
@@ -125,6 +132,9 @@ def test():
 
 
 def demo(demo_parameters):
+    # TODO:
+    #  consider using a dictionary instead of a list to unpack
+    #  those parameters, makes it more readable than indexing by number
     iterations = demo_parameters[0]
     network = demo_parameters[1]
     demo_directory = demo_parameters[2]
