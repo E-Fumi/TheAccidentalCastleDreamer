@@ -1,8 +1,8 @@
 from tensorflow import keras
 from tensorflow.keras import layers
-import hyperparameters as hp
-import custom_elements as custom
 
+import custom_elements as custom
+import hyperparameters as hp
 
 inputs = keras.Input(shape=(hp.img_dim, hp.img_dim, 3))
 

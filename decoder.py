@@ -1,8 +1,8 @@
 from tensorflow import keras
 from tensorflow.keras import layers
-import hyperparameters as hp
-import custom_elements as custom
 
+import custom_elements as custom
+import hyperparameters as hp
 
 latent_space_encoding = keras.Input(shape=(hp.latent_dim,))
 x = layers.Dense(1024, activation="relu")(latent_space_encoding)

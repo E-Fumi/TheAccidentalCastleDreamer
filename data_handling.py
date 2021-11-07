@@ -1,4 +1,5 @@
 import tensorflow as tf
+
 import hyperparameters as hp
 
 training_directory = 'C:/Data/buildings_dataset/train'
@@ -8,7 +9,6 @@ monitor_reconstruction_directory = 'C:/Data/buildings_dataset/reconstruct'
 
 
 def build_dataset(img_directory, shuffle):
-
     dataset = tf.keras.preprocessing.image_dataset_from_directory(
         directory=img_directory,
         label_mode=None,

@@ -1,14 +1,16 @@
-import numpy as np
-from numpy import asarray
-import tensorflow as tf
-from tensorflow import keras
-import hyperparameters as hp
-import encoder
-import decoder
-import PIL
-from PIL import Image
-import shutil
 import os
+import shutil
+
+import PIL
+import numpy as np
+import tensorflow as tf
+from PIL import Image
+from numpy import asarray
+from tensorflow import keras
+
+import decoder
+import encoder
+import hyperparameters as hp
 
 
 def initialize_demo_parameters():
@@ -37,7 +39,8 @@ def save(name):
 
 
 def initialize_directories():
-    directories = [hp.demo_directory, './monitor_reconstruction/', './monitor_generation/']
+    directories = [hp.demo_directory, './monitor_reconstruction/',
+                   './monitor_generation/']
     for _ in range(len(directories)):
         if os.path.isdir(directories[_]):
             shutil.rmtree(directories[_])
