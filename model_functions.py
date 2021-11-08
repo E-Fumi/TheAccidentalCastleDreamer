@@ -1,12 +1,14 @@
+import os
+
 import numpy as np
 import tensorflow as tf
-import utils
-import data_handling as data
+
 import custom_elements as custom
-import hyperparameters as hp
-import encoder
+import data_handling as data
 import decoder
-import os
+import encoder
+import hyperparameters as hp
+import utils
 
 
 @tf.function
@@ -56,8 +58,10 @@ def train_step(input_batch, optimizer):
     encoder_training_losses = train_encoder(input_batch, optimizer)
     decoder_training_losses = train_decoder(input_batch, optimizer)
     total_loss = (encoder_training_losses[0] + decoder_training_losses[0]) / 2
-    reconstruction_loss = (encoder_training_losses[1] + decoder_training_losses[1]) / 2
-    kl_divergence_loss = (encoder_training_losses[2] + decoder_training_losses[2]) / 2
+    reconstruction_loss = (encoder_training_losses[1] + decoder_training_losses[
+        1]) / 2
+    kl_divergence_loss = (encoder_training_losses[2] + decoder_training_losses[
+        2]) / 2
     return total_loss, reconstruction_loss, kl_divergence_loss
 
 
@@ -65,11 +69,19 @@ def train(nr_of_epochs, optimizer):
     utils.initialize_directories()
     for epoch in range(nr_of_epochs):
         for step, img_tensor_batch in enumerate(data.train_ds):
-            loss, reconstruction_loss, kl_loss = train_step(img_tensor_batch, optimizer)
+            loss, reconstruction_loss, kl_loss = train_step(img_tensor_batch,
+                                                            optimizer)
+            # TODO:
+            #  use the logging module wherever you call print()
+            #  https://docs.python.org/3/library/logging.html
             print(f'Ep: {epoch + 1} St: {step + 1} - '
                   f'reconstruction loss = {reconstruction_loss:.2f} - '
                   f'KL divergence loss = {kl_loss:.2f} - '
                   f'total loss = {loss:.2f}')
+
+            # TODO:
+            #  good practice is is to let the number of steps
+            #  between validation / progress logging be a parameter
             if (step + 1) % 100 == 0:
                 validate(data.val_ds, 'VALIDATION')
             if (step + 1) % 1000 == 0:
@@ -105,12 +117,14 @@ def monitor_reconstruction(epoch, step):
         output_tensor = decoder.network(latent_space_representation)
         img = utils.img_from_tensor(output_tensor)
         loss = int(custom.loss_function(input_array, output_tensor))
-        img.save(f'./monitor_reconstruction/E{epoch + 1}S{step + 1}R{img_nr}L{loss}.jpg')
+        img.save(
+            f'./monitor_reconstruction/E{epoch + 1}S{step + 1}R{img_nr}L{loss}.jpg')
         img_nr += 1
 
 
 def monitor_generation(epoch, step):
-    demo((12, decoder.network, './monitor_generation/', f'E{epoch + 1}S{step + 1}G_'))
+    demo((12, decoder.network, './monitor_generation/',
+          f'E{epoch + 1}S{step + 1}G_'))
 
 
 def test():
@@ -118,6 +132,9 @@ def test():
 
 
 def demo(demo_parameters):
+    # TODO:
+    #  consider using a dictionary instead of a list to unpack
+    #  those parameters, makes it more readable than indexing by number
     iterations = demo_parameters[0]
     network = demo_parameters[1]
     demo_directory = demo_parameters[2]

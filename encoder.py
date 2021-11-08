@@ -1,9 +1,12 @@
 from tensorflow import keras
 from tensorflow.keras import layers
-import hyperparameters as hp
+
 import custom_elements as custom
+import hyperparameters as hp
 
-
+# TODO:
+#  I would add some Dropout!
+#  https://keras.io/api/layers/regularization_layers/dropout/
 inputs = keras.Input(shape=(hp.img_dim, hp.img_dim, 3))
 
 x = custom.CNNBlock(64)(inputs)

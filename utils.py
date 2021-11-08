@@ -1,14 +1,16 @@
-import numpy as np
-from numpy import asarray
-import tensorflow as tf
-from tensorflow import keras
-import hyperparameters as hp
-import encoder
-import decoder
-import PIL
-from PIL import Image
-import shutil
 import os
+import shutil
+
+import PIL
+import numpy as np
+import tensorflow as tf
+from PIL import Image
+from numpy import asarray
+from tensorflow import keras
+
+import decoder
+import encoder
+import hyperparameters as hp
 
 
 def initialize_demo_parameters():
@@ -32,12 +34,18 @@ def img_from_tensor(tensor):
 
 
 def save(name):
+    # TODO:
+    #  possibly consider generating a run id and adding
+    #  it to the name. Particularly useful when your logger
+    #  also saves its output to a file and then you can identify
+    #  both the logs and the model by the same id of the run of main.py
     decoder.network.save('Decoder_' + name)
     encoder.network.save('Encoder_' + name)
 
 
 def initialize_directories():
-    directories = [hp.demo_directory, './monitor_reconstruction/', './monitor_generation/']
+    directories = [hp.demo_directory, './monitor_reconstruction/',
+                   './monitor_generation/']
     for _ in range(len(directories)):
         if os.path.isdir(directories[_]):
             shutil.rmtree(directories[_])
