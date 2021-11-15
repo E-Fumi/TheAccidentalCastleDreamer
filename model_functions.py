@@ -1,129 +1,166 @@
-import numpy as np
+import custom_elements as custom
+import data_handling as data
+import Decoder
+import Encoder
+import logging
+import os
 import tensorflow as tf
 import utils
-import data_handling as data
-import custom_elements as custom
-import hyperparameters as hp
-import encoder
-import decoder
-import os
+
+
+logging.basicConfig(filename='logs.log',
+                    level=logging.INFO,
+                    format='%(asctime)s:%(message)s')
+
+
+def define_losses(models, input_batch, output_batch):
+    losses = {'reconstruction_loss': custom.mse_loss_function(input_batch, output_batch),
+              'perceptual_loss': custom.perceptual_loss_function(input_batch, output_batch),
+              'kl_divergence_loss': tf.reduce_sum(models['encoder'].losses)}
+    losses['total_loss'] = losses['reconstruction_loss'] + losses['perceptual_loss'] + losses['kl_divergence_loss']
+    return losses
 
 
 @tf.function
-def train_encoder(input_batch, optimizer):
+def train_encoder(models, input_batch, optimizer):
     with tf.GradientTape() as tape:
-        latent_space_batch = encoder.network(input_batch, training=True)
-        output_batch = decoder.network(latent_space_batch, training=False)
+        latent_space_batch = models['encoder'](input_batch, training=True)
+        output_batch = models['decoder'](latent_space_batch, training=False)
 
-        reconstruction_loss = custom.loss_function(input_batch, output_batch)
-        kl_divergence_loss = tf.reduce_sum(encoder.network.losses)
-        total_loss = reconstruction_loss + kl_divergence_loss
+        losses = define_losses(models, input_batch, output_batch)
 
-    grads = tape.gradient(total_loss, encoder.network.trainable_weights)
-    optimizer.apply_gradients(zip(grads, encoder.network.trainable_weights))
-    return total_loss, reconstruction_loss, kl_divergence_loss
+    grads = tape.gradient(losses['total_loss'], models['encoder'].trainable_weights)
+    optimizer.apply_gradients(zip(grads, models['encoder'].trainable_weights))
+    return losses
 
 
 @tf.function
-def train_decoder(input_batch, optimizer):
+def train_decoder(models, input_batch, optimizer):
     with tf.GradientTape() as tape:
-        latent_space_batch = encoder.network(input_batch, training=False)
-        output_batch = decoder.network(latent_space_batch, training=True)
+        latent_space_batch = models['encoder'](input_batch, training=False)
+        output_batch = models['decoder'](latent_space_batch, training=True)
 
-        reconstruction_loss = custom.loss_function(input_batch, output_batch)
-        kl_divergence_loss = tf.reduce_sum(encoder.network.losses)
-        total_loss = reconstruction_loss + kl_divergence_loss
+        losses = define_losses(models, input_batch, output_batch)
 
-    grads = tape.gradient(total_loss, decoder.network.trainable_weights)
-    optimizer.apply_gradients(zip(grads, decoder.network.trainable_weights))
-    return total_loss, reconstruction_loss, kl_divergence_loss
+    grads = tape.gradient(losses['total_loss'], models['decoder'].trainable_weights)
+    optimizer.apply_gradients(zip(grads, models['decoder'].trainable_weights))
 
-
-@tf.function
-def validation_step(input_batch):
-    latent_space_batch = encoder.network(input_batch, training=False)
-    output_batch = decoder.network(latent_space_batch, training=False)
-
-    reconstruction_loss = custom.loss_function(input_batch, output_batch)
-    kl_divergence_loss = tf.reduce_sum(encoder.network.losses)
-    total_loss = reconstruction_loss + kl_divergence_loss
-
-    return total_loss, reconstruction_loss, kl_divergence_loss
+    return losses
 
 
 @tf.function
-def train_step(input_batch, optimizer):
-    encoder_training_losses = train_encoder(input_batch, optimizer)
-    decoder_training_losses = train_decoder(input_batch, optimizer)
-    total_loss = (encoder_training_losses[0] + decoder_training_losses[0]) / 2
-    reconstruction_loss = (encoder_training_losses[1] + decoder_training_losses[1]) / 2
-    kl_divergence_loss = (encoder_training_losses[2] + decoder_training_losses[2]) / 2
-    return total_loss, reconstruction_loss, kl_divergence_loss
+def train_step(models, input_batch, optimizer):
+    encoder_losses = train_encoder(models, input_batch, optimizer)
+    decoder_losses = train_decoder(models, input_batch, optimizer)
+    auto_encoder_losses = utils.setup_loss_dict()
+    for loss in auto_encoder_losses:
+        auto_encoder_losses[loss] = (encoder_losses[loss] + decoder_losses[loss]) / 2
+    return auto_encoder_losses
 
 
-def train(nr_of_epochs, optimizer):
-    utils.initialize_directories()
-    for epoch in range(nr_of_epochs):
+@tf.function
+def validation_step(models, input_batch):
+    latent_space_batch = models['encoder'](input_batch, training=False)
+    output_batch = models['decoder'](latent_space_batch, training=False)
+    losses = define_losses(models, input_batch, output_batch)
+    return losses
+
+
+def train(hyper_parameters, optimizer):
+    utils.initialize_directories(hyper_parameters)
+    utils.initialize_monitoring_distributions(hyper_parameters)
+    models = {'encoder': Encoder.Network(hyper_parameters['latent_dim'], hyper_parameters['beta']),
+              'decoder': Decoder.Network()}
+    for epoch in range(hyper_parameters['epochs']):
         for step, img_tensor_batch in enumerate(data.train_ds):
-            loss, reconstruction_loss, kl_loss = train_step(img_tensor_batch, optimizer)
-            print(f'Ep: {epoch + 1} St: {step + 1} - '
-                  f'reconstruction loss = {reconstruction_loss:.2f} - '
-                  f'KL divergence loss = {kl_loss:.2f} - '
-                  f'total loss = {loss:.2f}')
-            if (step + 1) % 100 == 0:
-                validate(data.val_ds, 'VALIDATION')
-            if (step + 1) % 1000 == 0:
-                monitor_progress(epoch, step)
+            progression = {'epoch': epoch, 'step': step}
+            losses = train_step(models, img_tensor_batch, optimizer)
+            log_losses(losses, progression, 'TRAINING')
+            if (step + 1) % (1 / hyper_parameters['validation_frequency']) == 0:
+                validate(models, data.val_ds, 'VALIDATION')
+            if (step + 1) % (1 / hyper_parameters['monitoring_frequency']) == 0:
+                monitor_progress(progression, models, hyper_parameters)
+    save(models, hyper_parameters)
 
 
-def validate(dataset, tag):
+def log_losses(losses, progression, tag):
+    training_log = True
+    loss_log = ''
+    if type(progression) != dict:
+        training_log = False
+    loss_log += (1 - training_log) * '\n'
+    loss_log += f'{tag} - '
+    if training_log:
+        loss_log += f'Ep: {progression["epoch"] + 1} St: {progression["step"] + 1} - '
+    loss_log += f'reconstruction loss = {losses["reconstruction_loss"]:.2f} - '
+    loss_log += f'perceptual loss = {losses["perceptual_loss"]:.2f} - '
+    loss_log += f'KL divergence loss = {losses["kl_divergence_loss"]:.2f} - '
+    loss_log += f'total loss = {losses["total_loss"]:.2f}'
+    loss_log += (1 - training_log) * '\n'
+    logging.info(loss_log)
+    print(loss_log)
+
+
+def save(models, hyper_parameters):
+    models['decoder'].save('Decoder_' + hyper_parameters['name'])
+    models['encoder'].save('Encoder_' + hyper_parameters['name'])
+
+
+def validate(models, dataset, tag):
     iterations = 0
-    val_losses = np.array([0., 0., 0.])
+    val_losses = utils.setup_loss_dict()
     for val_step, val_img_tensor in enumerate(dataset):
         iterations += 1
-        val_loss, val_mse_loss, val_kl_loss = validation_step(val_img_tensor)
-        batch_losses = np.array([val_loss, val_mse_loss, val_kl_loss])
-        val_losses += batch_losses
-    val_losses /= iterations
-    print(f'\n{tag} - '
-          f'reconstruction loss = {val_losses[1]:.2f} - '
-          f'KL divergence loss = {val_losses[2]:.2f} - '
-          f'total loss = {val_losses[0]:.2f}\n')
+        batch_losses = validation_step(models, val_img_tensor)
+        for loss in val_losses:
+            val_losses[loss] += batch_losses[loss]
+    for loss in val_losses:
+        val_losses[loss] /= iterations
+    log_losses(val_losses, 'placeholder', tag)
 
 
-def monitor_progress(epoch, step):
-    monitor_reconstruction(epoch, step)
-    monitor_generation(epoch, step)
+def monitor_progress(progression, models, hyper_parameters):
+    monitor_reconstruction(models, progression, hyper_parameters)
+    monitor_generation(models, progression, hyper_parameters)
 
 
-def monitor_reconstruction(epoch, step):
-    path_in = data.monitor_reconstruction_directory
-    img_nr = 1
+def monitor_reconstruction(models, progression, hyper_parameters):
+    path_in = data.directories['monitor_reconstruction']
+    img_nr = 0
     for image in os.listdir(path_in):
-        input_array = utils.np_array_from_img(path_in, image)
-        latent_space_representation = encoder.network(input_array)
-        output_tensor = decoder.network(latent_space_representation)
-        img = utils.img_from_tensor(output_tensor)
-        loss = int(custom.loss_function(input_array, output_tensor))
-        img.save(f'./monitor_reconstruction/E{epoch + 1}S{step + 1}R{img_nr}L{loss}.jpg')
         img_nr += 1
-
-
-def monitor_generation(epoch, step):
-    demo((12, decoder.network, './monitor_generation/', f'E{epoch + 1}S{step + 1}G_'))
-
-
-def test():
-    validate(data.test_ds, 'TEST')
-
-
-def demo(demo_parameters):
-    iterations = demo_parameters[0]
-    network = demo_parameters[1]
-    demo_directory = demo_parameters[2]
-    file_prefix = demo_parameters[3]
-    for image in range(iterations):
-        latent_input = tf.random.normal((1, hp.latent_dim), mean=0, stddev=1)
-        output_tensor = network(latent_input)
+        input_array = utils.np_array_from_img(path_in, image, hyper_parameters)
+        latent_space_representation = models['encoder'](input_array)
+        output_tensor = models['decoder'](latent_space_representation)
         img = utils.img_from_tensor(output_tensor)
-        img.save(demo_directory + f'{file_prefix}{image + 1}.jpg')
+        loss = int(custom.mse_loss_function(input_array, output_tensor))
+        loss += int(custom.perceptual_loss_function(input_array, output_tensor))
+        img.save(os.path.join('monitor_reconstruction', f'E{progression["epoch"] + 1}'
+                                                        f'S{progression["step"] + 1}'
+                                                        f'R{img_nr}'
+                                                        f'L{loss}.jpg'))
+
+
+def monitor_generation(models, progression, hyper_parameters):
+    for iteration in range(12):
+        output_tensor = models['decoder'](hyper_parameters['normal_distributions'][iteration])
+        img = utils.img_from_tensor(output_tensor)
+        img.save(os.path.join('monitor_generation', f'E{progression["epoch"] + 1}'
+                                                    f'S{progression["step"] + 1}'
+                                                    f'G_{iteration + 1}.jpg'))
+
+
+def test(hyper_parameters):
+    models = {'encoder': tf.keras.models.load_model('Encoder_' + hyper_parameters['name']),
+              'decoder': tf.keras.models.load_model('Decoder_' + hyper_parameters['name'])}
+    validate(models, data.test_ds, 'TEST')
+
+
+def demo(hyper_parameters):
+    for image in range(hyper_parameters['demo_iterations']):
+        latent_input = tf.random.normal((1, hyper_parameters['latent_dim']), mean=0, stddev=1)
+        saved_model = tf.keras.models.load_model('Decoder_' + hyper_parameters['name'])
+        output_tensor = saved_model(latent_input)
+        img = utils.img_from_tensor(output_tensor)
+        demo_directory = os.path.join(f'demo_{hyper_parameters["name"]}')
+        img.save(os.path.join(demo_directory, f'demo_img_{image + 1}.jpg'))

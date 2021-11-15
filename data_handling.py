@@ -1,10 +1,11 @@
+import hyperparameters as hyper
+import os
 import tensorflow as tf
-import hyperparameters as hp
+import utils
 
-training_directory = 'C:/Data/buildings_dataset/train'
-validation_directory = 'C:/Data/buildings_dataset/val'
-test_directory = 'C:/Data/buildings_dataset/test'
-monitor_reconstruction_directory = 'C:/Data/buildings_dataset/reconstruct'
+
+directories = utils.fetch_datasets(hyper.parameters)
+directories['monitor_reconstruction'] = os.path.join('to_reconstruct')
 
 
 def build_dataset(img_directory, shuffle):
@@ -12,8 +13,8 @@ def build_dataset(img_directory, shuffle):
     dataset = tf.keras.preprocessing.image_dataset_from_directory(
         directory=img_directory,
         label_mode=None,
-        batch_size=hp.batch_size,
-        image_size=(hp.img_dim, hp.img_dim),
+        batch_size=hyper.parameters['batch_size'],
+        image_size=(hyper.parameters['img_dim'], hyper.parameters['img_dim']),
         shuffle=shuffle)
 
     dataset = dataset.map(lambda data: (data / 255.0))
@@ -21,6 +22,6 @@ def build_dataset(img_directory, shuffle):
     return dataset
 
 
-train_ds = build_dataset(training_directory, True)
-val_ds = build_dataset(validation_directory, True)
-test_ds = build_dataset(test_directory, False)
+train_ds = build_dataset(directories['train'], True)
+val_ds = build_dataset(directories['validation'], True)
+test_ds = build_dataset(directories['test'], False)
