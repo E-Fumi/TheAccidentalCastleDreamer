@@ -1,23 +1,22 @@
 import tensorflow as tf
 from tensorflow import keras
+from tensorflow.keras import backend as k
 from tensorflow.keras import layers
 from tensorflow.keras import Model
-from tensorflow.keras import backend as k
 from tensorflow.keras import regularizers
-import hyperparameters as hp
 
 
 class SamplingLayer(layers.Layer):
-    def __init__(self, *args, **kwargs):
-        self.is_placeholder = True
-        super(SamplingLayer, self).__init__(*args, **kwargs)
+    def __init__(self, beta):
+        self.beta = beta
+        super(SamplingLayer, self).__init__()
 
     def call(self, inputs, training=True, **kwargs):
         mean, log_var = inputs
         kl_batch = - .5 * k.sum(1 + log_var -
                                 k.square(mean) -
                                 k.exp(log_var), axis=-1)
-        self.add_loss(hp.beta * (k.mean(kl_batch)), inputs=inputs)
+        self.add_loss(self.beta * (k.mean(kl_batch)))
         epsilon = tf.keras.backend.random_normal(shape=(tf.shape(mean)[0], tf.shape(mean)[1]))
         return mean + tf.exp(0.5 * log_var) * epsilon
 
@@ -35,23 +34,46 @@ class CNNBlock(layers.Layer):
     def call(self, input_tensor, training=False, **kwargs):
         tensor = self.conv(input_tensor)
         tensor = self.batch_norm(tensor, training=training)
+        tensor = keras.layers.Dropout(0.1)(tensor)
         tensor = keras.activations.relu(tensor)
         return tensor
 
 
-e_netB3 = tf.keras.applications.EfficientNetB3(
+class EncoderBlock(layers.Layer):
+    def __init__(self, filters_1, filters_2, pool_size=2, kernel_size=3, strides=1):
+        super(EncoderBlock, self).__init__()
+        self.pool_size = pool_size
+        self.conv_block_1 = CNNBlock(filters_1, kernel_size, strides)
+        self.conv_block_2 = CNNBlock(filters_2, kernel_size, strides)
+
+    def call(self, input_tensor, training=False, **kwargs):
+        tensor = self.conv_block_1(input_tensor)
+        tensor = self.conv_block_2(tensor)
+        tensor = keras.layers.MaxPooling2D(self.pool_size)(tensor)
+        return tensor
+
+
+class DecoderBlock(layers.Layer):
+    def __init__(self, filters_1, filters_2, upsampling_factor=2, kernel_size=3, strides=1):
+        super(DecoderBlock, self).__init__()
+        self.upsampling_factor = upsampling_factor
+        self.conv_block_1 = CNNBlock(filters_1, kernel_size, strides)
+        self.conv_block_2 = CNNBlock(filters_2, kernel_size, strides)
+
+    def call(self, input_tensor, training=False, **kwargs):
+        tensor = layers.UpSampling2D(self.upsampling_factor)(input_tensor)
+        tensor = self.conv_block_1(tensor)
+        tensor = self.conv_block_2(tensor)
+        return tensor
+
+
+vgg16 = tf.keras.applications.VGG16(
     include_top=False,
     weights='imagenet',
     input_shape=(None, None, 3))
-e_netB3.trainable = False
+vgg16.trainable = False
 
-loss_model = Model(inputs=e_netB3.input, outputs=e_netB3.get_layer('top_conv').output)
-
-
-def loss_function(input_tensor, output_tensor):
-    custom_loss = tf.math.reduce_sum(abs(loss_model(input_tensor) - loss_model(output_tensor))) / input_tensor.shape[0]
-    custom_loss += tf.math.reduce_sum((input_tensor - output_tensor) ** 2) / input_tensor.shape[0]
-    return custom_loss
+loss_model = Model(inputs=vgg16.input, outputs=vgg16.get_layer('block2_pool').output)
 
 
 def mse_loss_function(input_tensor, output_tensor):
@@ -67,4 +89,10 @@ def ae_loss_function(input_tensor, output_tensor):
 def perceptual_loss_function(input_tensor, output_tensor):
     d_tensor = abs(loss_model(input_tensor) - loss_model(output_tensor))
     perceptual_loss = tf.math.reduce_sum(d_tensor) / input_tensor.shape[0]
-    return perceptual_loss
+    return perceptual_loss * 0.01
+
+
+# def loss_function(input_tensor, output_tensor):
+#    custom_loss = tf.math.reduce_sum(abs(loss_model(input_tensor) - loss_model(output_tensor))) / input_tensor.shape[0]
+#    custom_loss += tf.math.reduce_sum((input_tensor - output_tensor) ** 2) / input_tensor.shape[0]
+#    return custom_loss
