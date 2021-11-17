@@ -7,7 +7,7 @@ Description coming soon<br/>
 
 ## Network Details
 
-First things first, this is a work in progress, and while the base of it is solid, various details are going to change in the coming weeks, hopefully bringing with them improvements in performance.
+First things first, this is a work in progress, and while the base of it is (passably) solid, various details are going to change in the coming weeks, hopefully bringing with them improvements in performance.
 
 ### Data Preparation
 Placeholder text.
