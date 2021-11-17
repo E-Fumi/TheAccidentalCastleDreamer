@@ -22,6 +22,7 @@ Placeholder text.
 
 ## Requirements
 python 3.x<br/>
+Conda (not strictly a requirement, but is likely to make running this project a great deal easier)<br/>
 tensorflow-gpu<br/>
 numpy<br/>
 wget<br/>
