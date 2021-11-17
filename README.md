@@ -1,7 +1,8 @@
 # VariationalAutoEncoder
 ## Intro
 Description coming soon
-![alt-text](./VAECollage.png&s=200)
+<img src="./VAECollage.png" width="400" height="790">
+![alt-text](./VAECollage.png)
 ## Requirements
 python 3.x<br/>
 tensorflow-gpu<br/>
