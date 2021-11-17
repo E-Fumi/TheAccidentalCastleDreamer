@@ -1,3 +1,12 @@
 # VariationalAutoEncoder
+## Intro
+Description coming soon
+![alt-text](./VAECollage.png)
+## Requirements
+python 3.x<br/>
+tensorflow-gpu<br/>
+numpy<br/>
+wget<br/>
+PIL
+## Usage
 
-Work in progress. Check again at the end of the week.
