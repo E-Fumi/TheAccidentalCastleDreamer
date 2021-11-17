@@ -2,7 +2,7 @@
 
 ## Intro
 
-This generative model is a [variational autoencoder](https://en.wikipedia.org/wiki/Variational_autoencoder) (or, more specifically, a disentangled [variational autoencoder](https://arxiv.org/pdf/1812.02833.pdf)) for the generation of architectural imagery. <br/>
+This generative model is a [variational autoencoder](https://en.wikipedia.org/wiki/Variational_autoencoder) (or, more specifically, a [disentangled variational autoencoder](https://arxiv.org/pdf/1812.02833.pdf)) for the generation of architectural imagery. <br/>
 <img src="./VAECollage.png" width="548" height="548">
 
 ## Network Details
