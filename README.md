@@ -34,4 +34,8 @@ wget<br/>
 PIL
 
 ## Usage
+`git clone https://github.com/E-Fumi/VariationalAutoEncoder`<br/>
+`cd VariationalAutoEncoder`<br/>
+`pip install -r requirements.txt`<br/>
+`python main.py`<br/>
 
