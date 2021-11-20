@@ -29,7 +29,10 @@ Each ensemble model is composed of three identical networks that were trained in
 All pertinent scripts are in the 'transfer_learning' folder.<br/>
 
 ### Losses
-Placeholder text.
+The overall loss function is composed of 3 independent components:<br/>
+- a simple reconstruction loss equal to the mean squared error between all corresponding values of the input and output tensors.<br/>
+- a KL-divergence loss function to incentivise the latent space distribution to occupy the same space. <br/>
+- a perceptual loss function (which I have only recently began tinkering with) hinging on a pre-trained network.<br/>
 ### Architecture
 Placeholder text.
 ### Monitoring
