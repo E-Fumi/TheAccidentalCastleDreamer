@@ -25,7 +25,7 @@ Placeholder text.
 
 ## Requirements
 python 3.x<br/>
-Conda (not strictly a requirement, but is likely to make running this project a great deal easier)<br/>
+[Conda](https://docs.conda.io/en/latest/miniconda.html) (not strictly a requirement, but is likely to make running this project a great deal easier)<br/>
 Cuda drivers (necessary if you want to run this code on a GPU)<br/>
 tensorflow-gpu (again, necessary to run this on a GPU, otherwise regular tensorflow will do)<br/>
 numpy<br/>
