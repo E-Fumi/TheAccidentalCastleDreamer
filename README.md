@@ -20,7 +20,7 @@ First things first, this is a work in progress, and while the base of it is (pas
 
 ### Data Preparation
 
-All data used to train this network stems from the Google Landmarks Dataset v2, a collection of 5 million pictures of human-made and natural landmarks.<br/>
+All data used to train this network stems from the Google Landmarks Dataset v2, a crowdsourced collection of 5 million pictures of human-made and natural landmarks.<br/>
 
 Images depicting architecture were selected from the original dataset by two ensemble classifiers. The first model discerns whether a picture is of a building or not, and the second discerns whether an image of a building is suitable or not (this latter task is admittedly vague and based on a set of arbitrary criteria such as whether a photo is blurry, whether a significant portion of the architecture is blocked by a vehicle, or whether the photo contains enough features of a building to infer its overall structure).<br/>
 
