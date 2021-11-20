@@ -7,7 +7,9 @@ The main idea is to have a neural network composed of two convolutional neural n
 <p align="center">
   <img src="./VAECollage.png" width="548" height="548"><br/>
   Each of these (admittedly somewhat cherrypicked) images<br/>
-  comes from a random normal distribution.
+  comes from a random normal distribution.{
+  font-size: 75;
+}
  </p>
 
 ## Network Details
