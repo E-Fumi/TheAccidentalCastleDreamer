@@ -24,7 +24,7 @@ Images depicting architecture were selected from the original dataset by two ens
 
 Each ensemble model is composed of three identical networks that were trained independently of one another. The architecture of the individual networks is always an imagenet-pretrained Densenet201's convolutional base with three dense layers added at the end, trained on a smaller, painstakingly hand-annotated dataset (approximately 12000 pictures in total). The smaller datasets were fed to a keras image data generator for data augmentation.<br/>
 
-All pertinent scripts are in the 'transfer learning' folder.<br/>
+All pertinent scripts are in the 'transfer_learning' folder.<br/>
 
 ### Losses
 Placeholder text.
