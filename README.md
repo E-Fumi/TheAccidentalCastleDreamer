@@ -13,7 +13,15 @@ The main idea is to have a neural network composed of two convolutional neural n
 First things first, this is a work in progress, and while the base of it is (passably) solid, various details are going to change in the coming weeks, hopefully bringing with them improvements in performance.
 
 ### Data Preparation
-Placeholder text.
+
+All data used to train this network stems from the Google Landmarks Dataset v2, a collection of 5 million pictures of human-made and natural landmarks.<br/>
+
+Images depicting architecture were selected from the original dataset by two ensemble classifiers. The first model discerns whether a picture is of a building or not, and the second discerns whether an image of a building is suitable or not (this latter task is admittedly vague and based on a set of arbitrary criteria such as whether a photo is blurry, whether a significant portion of the architecture is blocked by a vehicle, or whether the photo contains enough features of a building to infer its overall structure).<br/>
+
+Each ensemble model is composed of three identical networks that were trained independently of one another. The architecture of the individual networks is always an imagenet-pretrained Densenet201's convolutional base with three dense layers added at the end, trained on a smaller, painstakingly hand-annotated dataset (approximately 12000 pictures in total). The smaller datasets were fed to a keras image data generator for data augmentation.<br/>
+
+All pertinent scripts are in the 'transfer learning' folder.<br/>
+
 ### Losses
 Placeholder text.
 ### Architecture
