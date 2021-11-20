@@ -9,6 +9,8 @@ The main idea is to have a neural network composed of two convolutional neural n
   Each of these (admittedly somewhat cherrypicked)<br/>
   images comes from a random normal distribution.
  </p>
+<br/>
+
 
 ## Network Details
 
