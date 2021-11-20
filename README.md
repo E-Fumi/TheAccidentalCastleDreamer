@@ -51,16 +51,17 @@ PIL
 
 ## Usage
 With Conda:<br/>
+should 'conda' not be recognized in the terminal, the following commands will also work in the conda/miniconda prompt<br/>
 `conda install -c anaconda cudatoolkit`<br/>
 `git clone https://github.com/E-Fumi/TheAccidentalCastleDreamer`<br/>
 `cd TheAccidentalCastleDreamer`<br/>
 `conda env create -f environment.yml`<br/>
-`conda activate environment`<br/>
+`conda activate VAE`<br/>
 `python main.py`<br/>
 
 Without Conda:<br/>
-`git clone https://github.com/E-Fumi/VariationalAutoEncoder`<br/>
-`cd VariationalAutoEncoder`<br/>
+`git clone https://github.com/E-Fumi/TheAccidentalCastleDreamer`<br/>
+`cd TheAccidentalCastleDreamer`<br/>
 `pip install -r requirements.txt`<br/>
 `python main.py`<br/>
 
