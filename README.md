@@ -33,6 +33,15 @@ wget<br/>
 PIL
 
 ## Usage
+With Conda:<br/>
+`conda install -c anaconda cudatoolkit`<br/>
+`git clone https://github.com/E-Fumi/TheAccidentalCastleDreamer`<br/>
+`cd TheAccidentalCastleDreamer`<br/>
+`conda env create -f environment.yml`<br/>
+`conda activate environment`<br/>
+`python main.py`<br/>
+
+Without Conda:<br/>
 `git clone https://github.com/E-Fumi/VariationalAutoEncoder`<br/>
 `cd VariationalAutoEncoder`<br/>
 `pip install -r requirements.txt`<br/>
