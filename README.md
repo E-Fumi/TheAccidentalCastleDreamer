@@ -50,8 +50,8 @@ wget<br/>
 PIL
 
 ## Usage
-With Conda:<br/>
-should 'conda' not be recognized in the terminal, the following commands will also work in the conda/miniconda prompt<br/>
+With [Conda](https://docs.conda.io/en/latest/miniconda.html):<br/>
+(should 'conda' not be recognized in the terminal, the following commands will also work in the conda/miniconda prompt)<br/>
 `conda install -c anaconda cudatoolkit`<br/>
 `git clone https://github.com/E-Fumi/TheAccidentalCastleDreamer`<br/>
 `cd TheAccidentalCastleDreamer`<br/>
