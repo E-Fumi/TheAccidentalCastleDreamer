@@ -60,6 +60,7 @@ With [Conda](https://docs.conda.io/en/latest/miniconda.html):<br/>
 `python main.py`<br/>
 
 Without Conda:<br/>
+(down this route you'll have to figure out the GPU side of things yourself, theoretically you could also run this code on a CPU, but it would be excruciatingly slow)<br/>
 `git clone https://github.com/E-Fumi/TheAccidentalCastleDreamer`<br/>
 `cd TheAccidentalCastleDreamer`<br/>
 `pip install -r requirements.txt`<br/>
