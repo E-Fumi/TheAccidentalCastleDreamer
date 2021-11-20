@@ -6,7 +6,8 @@ This generative model is a [variational autoencoder](https://en.wikipedia.org/wi
 The main idea is to have a neural network composed of two convolutional neural networks: an encoder and a decoder. The encoder is meant to encode data into a latent space vector (i.e. an arbitrarily-sized 1D array of float values), and the decoder is meant to reconstruct the original data from that same vector. Once successfully trained, the decoder would ideally be able to construct realistic synthetic data from any set of values in the same probability space as the latent space vectors encoded by the encoder for real data.<br/>
 <p align="center">
   <img src="./VAECollage.png" width="548" height="548"><br/>
-  Each of these (admittedly somewhat cherrypicked) images comes from a random normal distribution.
+  Each of these (admittedly somewhat cherrypicked) images<br/>
+  comes from a random normal distribution.
  </p>
 
 ## Network Details
