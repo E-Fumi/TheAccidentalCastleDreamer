@@ -38,7 +38,7 @@ Placeholder text.
 ### Monitoring
 Placeholder text.
 ### Hardware
-Placeholder text.
+This code was developed and tested on a NVIDIA GeForce RTX 3070 Laptop GPU.
 
 ## Requirements
 python 3.x<br/>
