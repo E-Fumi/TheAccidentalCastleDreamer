@@ -10,17 +10,15 @@ This is a work in progress, and while the base of it is (passably) solid, variou
 
 This generative model is a [variational autoencoder](https://en.wikipedia.org/wiki/Variational_autoencoder) (or, more specifically, a [disentangled variational autoencoder](https://openreview.net/pdf?id=Sy2fzU9gl)) meant for the synthesis of architectural imagery. The data it works with is essentially a large aggregation of vacation pictures, and it turns out that people are much more likely to take pictures of castles and churches than of regular office buildings, which in turn skews the model's reconstruction's probability landscape, hence the name of the project. <br/>
 
+<br/>
+<p align="center">
+  <img src="./example.png" width="548" height="548"><br/>
+ </p>
+<br/>
+
 #### The Classical Autoencoder
 
 The main idea is to have a neural network composed of two convolutional neural networks: an encoder and a decoder. The encoder is meant to encode data into a latent space vector (i.e. an arbitrarily-sized 1D array of float values), and the decoder is meant to reconstruct the original data from that same vector. However, this makes the neural network far more than a data compression and decompression algorithm. Once successfully trained on a loss function that tracks data reconstruction, the decoder would ideally also be able to construct realistic synthetic data from any set of values in the same probability space as the latent space encodings for real data.<br/>
-
-<br/>
-<p align="center">
-  <img src="./VAECollage.png" width="548" height="548"><br/>
-  Each of these (admittedly somewhat cherrypicked)<br/>
-  images comes from a random normal distribution.
- </p>
-<br/>
 
 #### The Variational Autoencoder
 
@@ -35,6 +33,14 @@ However, with this change alone, the standard deviations would grow to be arbitr
 Secondly, a KL divergence term is added to the loss function. The Kullback–Leibler divergence is a measure of the difference between two statistical distributions. The KL divergence between each of the distributions (from which values of the latent space vector are sampled) and the normal distribution is calculated and added to the loss function. This forces the distributions to occupy some of the same space, and thus have some overlap. This greatly increases the likelihood that a random latent space vector would decode to meaningful synthetic data, as long as its values do not stray too far outside a normal distribution.<br/>
 
 This is, in a nutshell, what a variational autoencoder is.<br/>
+
+<br/>
+<p align="center">
+  <img src="./VAECollage.png" width="548" height="548"><br/>
+  Each of these (admittedly somewhat cherrypicked)<br/>
+  images comes from a random normal distribution.
+ </p>
+<br/>
 
 #### The Disentangled Variational Autoencoder
 
