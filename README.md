@@ -12,7 +12,7 @@ This generative model is a [variational autoencoder](https://en.wikipedia.org/wi
 
 <br/>
 <p align="center">
-  <img src="./example.jpg" width="416" height="128"><br/>
+  <img src="./example.jpg" width="208" height="64"><br/>
  </p>
 
 #### The Classical Autoencoder
