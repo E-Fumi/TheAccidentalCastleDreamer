@@ -77,8 +77,7 @@ The reconstruction and perceptual loss terms' values alone cannot provide a deta
 <p align="center">
   <img src="./readme_media/monitoring.gif"><br/>
  </p>
-Analogously, every 1000 training steps 12 random latent space vectors from a normal distribution are decoded into images and saved in a local 'monitor_generation' folder.<br/>
-Once training and testing are concluded, 100 random latent space vectors are decoded into images and saved in a local 'demo_{model_name}' folder.
+Analogously, every 1000 training steps 12 random latent space vectors from a normal distribution are decoded into images and saved in a local 'monitor_generation' folder. Once training and testing are concluded, 100 random latent space vectors are decoded into images and saved in a local 'demo_{model_name}' folder.
 
 ### Hardware
 
