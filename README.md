@@ -1,6 +1,6 @@
 # The Accidental Castle Dreamer
 
-## First things first
+### First things first
 
 This is a work in progress, and while the base of it is (passably) solid, various details are going to change in the coming weeks, hopefully bringing with them improvements in performance.
 
@@ -20,16 +20,14 @@ The main idea is to have a neural network composed of two convolutional neural n
 
 Now, if the process described above were to take place without any further regularization baked into the model, one would have a classical autoencoder (not variational). The issue with it is that one would get data reconstruction, but data generation would be extremely unlikely. The network would be incentivized to overfit, assigning different latent space vectors to different training data inputs, but the space between those vectors would not decode to anything meaningful.<br/>
 
-There is a two-part solution to this problem:<br/>
+There is a two-part solution to this problem, which gives rise to the variational autoencoder.<br/>
 
-Firstly, the encoder does not just end up providing a set of deterministically chosen values that constitute the latent space vector. Instead, the encoder provides two values for each of the entries in the latent space vector: a mean, and a standard deviation. Each such set defines a statistical distribution from which one of the values in the latent space is then randomly sampled. This ensures that no one piece of data can be assigned to a single latent space vector, it has to be assigned to a distribution. <br/>
+Firstly, the encoder does not just provide a set of deterministically chosen values that constitute the latent space vector. Instead, the encoder provides two values for each of the entries in the latent space vector: a mean, and a standard deviation. Each such set defines a statistical distribution from which one of the values in the latent space vector is then randomly sampled. This ensures that no one piece of data can be assigned to a single latent space vector, it has to be assigned to a distribution.<br/>
 
-However, with this change alone, the network would set the standard deviations to be arbitrarily small and the corresponding means to be distant from one another in the latent space, leading to no improvement at all, therefore...
+However, with this change alone, the standard deviations would grow to be arbitrarily small and the corresponding means to be distant from one another in the latent space, leading to no improvement at all, therefore...<br/>
 
-Secondly, a KL divergence term is added to the loss function. The Kullback–Leibler divergence is a measure of the difference between two statistical distributions. The KL divergence between each of the distributions from which values of the latent space vector are sampled and the normal distribution is calculated and added to the loss function. This forces the distributions to occupy some of the same space, and thus have some overlap.
+Secondly, a KL divergence term is added to the loss function. The Kullback–Leibler divergence is a measure of the difference between two statistical distributions. The KL divergence between each of the distributions (from which values of the latent space vector are sampled) and the normal distribution is calculated and added to the loss function. This forces the distributions to occupy some of the same space, and thus have some overlap. This greatly increases the likelihood that a random latent space vector would decode to meaningful synthetic data, as long as its values do not stray too far outside a normal distribution.<br/>
 
-
-variational aspect<br/>
 disentanglement<br/>
 
 ## Network Details
