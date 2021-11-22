@@ -17,7 +17,7 @@ This generative model is a [variational autoencoder](https://en.wikipedia.org/wi
 
 #### The Classical Autoencoder
 
-The main idea is to have a neural network composed of two convolutional neural networks: an encoder and a decoder. The encoder is meant to encode data into a latent space vector (i.e. an arbitrarily-sized 1D array of float values), and the decoder is meant to reconstruct the original data from that same vector. However, this makes the neural network far more than a data compression and decompression algorithm. Once successfully trained on a loss function that tracks data reconstruction, the decoder would ideally also be able to construct realistic synthetic data from any set of values in the same probability space as the latent space encodings for real data.<br/>
+The main idea is to have a neural network composed of two convolutional neural networks: an encoder and a decoder. The encoder is meant to encode data into a latent space vector (i.e. an arbitrarily-sized 1D array of float values which represent a point in a latent space that has as many dimensions as there are entries in the array), and the decoder is meant to reconstruct the original data from that same vector. However, this makes the neural network far more than a data compression and decompression algorithm. Once successfully trained on a loss function that tracks data reconstruction, the decoder would ideally also be able to construct realistic synthetic data from any set of values in the same probability space as the latent space encodings for real data.<br/>
 
 #### The Variational Autoencoder
 
