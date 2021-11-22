@@ -6,6 +6,8 @@ This is a work in progress, and while the base of it is (passably) solid, variou
 
 ## Intro
 
+#### The Project
+
 This generative model is a [variational autoencoder](https://en.wikipedia.org/wiki/Variational_autoencoder) (or, more specifically, a [disentangled variational autoencoder](https://openreview.net/pdf?id=Sy2fzU9gl)) meant for the synthesis of architectural imagery. The data it works with is basically a large aggregation of vacation pictures, and it turns out that people are much more likely to take pictures of castles and churches than of regular office buildings, which in turn skews the model's reconstruction's probability landscape, hence the name of the project. <br/>
 
 #### The Classical Autoencoder
