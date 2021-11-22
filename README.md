@@ -14,7 +14,6 @@ This generative model is a [variational autoencoder](https://en.wikipedia.org/wi
 <p align="center">
   <img src="./example.jpg"><br/>
  </p>
-<br/>
 
 #### The Classical Autoencoder
 
@@ -40,7 +39,6 @@ This is, in a nutshell, what a variational autoencoder is.<br/>
   Each of these (admittedly somewhat cherrypicked)<br/>
   images comes from a random normal distribution.
  </p>
-<br/>
 
 #### The Disentangled Variational Autoencoder
 
