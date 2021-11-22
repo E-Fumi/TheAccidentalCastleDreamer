@@ -63,19 +63,22 @@ All pertinent scripts are in the 'transfer_learning' folder.<br/>
 ### Losses
 
 The overall loss function is composed of 3 independent components:<br/>
-- a simple reconstruction loss equal to the mean squared error between all corresponding values of the input and output tensors.<br/>
-- a KL-divergence loss function to incentivise the latent space distributions to occupy the same space. <br/>
-- a perceptual loss function (which I have only recently began tinkering with) hinging on a pre-trained network.<br/>
+- a simple reconstruction loss, the mean squared error between all corresponding values of the input and output tensors.<br/>
+- a KL-divergence loss function to incentivise the latent space distributions to occupy the same space, multiplied by a hyperparameter (beta). <br/>
+- a perceptual loss function (which I have only recently began tinkering with) hinging on a pre-trained computer vision model. The variational autoencoder's input and output images are passed through the pre-trained network, the activity of an early convolutional (or pooling) layer is compared for the two images, and the absolute error is calculated for the corresponding entries. This term is likewise multiplied by a hyperparameter (gamma). <br/>
 
 ### Architecture
 
 Placeholder text.
 
 ### Monitoring
+The reconstruction and perceptual loss terms' values alone cannot provide a detailed insight in the network's performance (mse is very forgiving on blurry pictures and perceptual loss functions are frequently very forgiving of visual artifacts). The project contains a folder with 12 pictures in it. During training, with a given frequency (once every 1000 steps by default, but this can be changed in the hyperparameters file) the network's performance is monitored by saving reconstruction attempts in a local 'monitor_reconstruction' folder.<br/>
 
 <p align="center">
   <img src="./readme_media/monitoring.gif"><br/>
  </p>
+Analogously, every 1000 training steps 12 random latent space vectors from a normal distribution are decoded into images and saved in a local 'monitor_generation' folder.<br/>
+Once training and testing are concluded, 100 random latent space vectors are decoded into images and saved in a local 'demo_{model_name}' folder.
 
 ### Hardware
 
