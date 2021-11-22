@@ -12,7 +12,7 @@ This generative model is a [variational autoencoder](https://en.wikipedia.org/wi
 
 <br/>
 <p align="center">
-  <img src="./example.jpg" width="312" height="96"><br/>
+  <img src="./readme_media/example.jpg" width="312" height="96"><br/>
  </p>
 
 #### The Classical Autoencoder
@@ -35,7 +35,7 @@ This is, in a nutshell, what a variational autoencoder is.<br/>
 
 <br/>
 <p align="center">
-  <img src="./VAECollage.png" width="548" height="548"><br/>
+  <img src="./readme_media/VAECollage.png" width="548" height="548"><br/>
   Each of these (admittedly somewhat cherrypicked)<br/>
   images comes from a random normal distribution.
  </p>
@@ -73,7 +73,9 @@ Placeholder text.
 
 ### Monitoring
 
-Placeholder text.
+<p align="center">
+  <img src="./readme_media/monitoring.gif"><br/>
+ </p>
 
 ### Hardware
 
