@@ -8,7 +8,7 @@ This is a work in progress, and while the base of it is (passably) solid, variou
 
 This generative model is a [variational autoencoder](https://en.wikipedia.org/wiki/Variational_autoencoder) (or, more specifically, a [disentangled variational autoencoder](https://openreview.net/pdf?id=Sy2fzU9gl)) meant for the synthesis of architectural imagery. The data it works with is basically a large aggregation of vacation pictures, and it turns out that people are much more likely to take pictures of castles and churches than of regular office buildings, which in turn skews the model's reconstruction's probability landscape, hence the name of the project. <br/>
 
-### The Classical Autoencoder
+#### The Classical Autoencoder
 
 The main idea is to have a neural network composed of two convolutional neural networks: an encoder and a decoder. The encoder is meant to encode data into a latent space vector (i.e. an arbitrarily-sized 1D array of float values), and the decoder is meant to reconstruct the original data from that same vector. However, this makes the neural network far more than a data compression and decompression algorithm. Once successfully trained on a loss function that tracks data reconstruction, the decoder would ideally also be able to construct realistic synthetic data from any set of values in the same probability space as the latent space encodings for real data.<br/>
 
@@ -20,7 +20,7 @@ The main idea is to have a neural network composed of two convolutional neural n
  </p>
 <br/>
 
-### The Variational Autoencoder
+#### The Variational Autoencoder
 
 Now, if the process described above were to take place without any further regularization baked into the model, one would have a classical autoencoder (not variational). The issue with it is that one would get data reconstruction, but data generation would be extremely unlikely. The network would be incentivized to overfit, assigning different latent space vectors to different training data inputs, but the space between those vectors would not decode to anything meaningful.<br/>
 
@@ -34,9 +34,13 @@ Secondly, a KL divergence term is added to the loss function. The Kullback–Lei
 
 This is, in a nutshell, what a variational autoencoder is.<br/>
 
-### The Disentangled Variational Autoencoder
+#### The Disentangled Variational Autoencoder
 
-A further, very interesting improvement can be brought about in a rather simple way. If the KL divergence loss term is weighted more, in comparison to the reconstruction loss term, then this forces the distributions even closer together. This incentivizes the network to get the most bang for its buck with each of the dimensions in the latent space (and perhaps even having a few unused dimensions that bear no relevance for the network's output and that are set equal to a normal distribution so as to not contribute to the KL divergence loss term). The best way of acheiving that is orthogonality, and this is where the disentanglement comes in. In principle, if each of the latent space dimensions is disentangled, then each will represent an independent underlying feature within the data that the network is trained on [smile dimension](https://drek4537l1klr.cloudfront.net/chollet/Figures/08fig11_alt.jpg) <br/>
+A further, very interesting improvement can be brought about in a rather simple way. If the KL divergence loss term is weighed more, in comparison to the reconstruction loss term, then this forces the distributions even closer together. This, in turn, incentivizes the network to get the most bang for its buck with each of the dimensions in the latent space (and perhaps even having a few unused dimensions that bear no relevance for the network's output and that are set equal to a normal distribution so as to not contribute to the KL divergence loss term). The best way of acheiving that is orthogonality, and this is where the disentanglement comes in.<br/>
+
+In principle, if each of the latent space dimensions is disentangled, then each will represent an independent underlying feature within the data that the network is trained on. This allows for a very powerful measure of control in the synthesis of new data; a famous example is that of the [smile dimension](https://drek4537l1klr.cloudfront.net/chollet/Figures/08fig11_alt.jpg) in a disentangled autoencoder trained on a dataset of faces. Most intriguingly, this implies that the model has a semantic understanding of each of the disentangled features.<br/>
+
+Obtaining a network that would have a significant measure of disentanglement between dimensions representing architectural features (width of the windows, slant of a roof, height of the towers, etc...) represents the ultimate goal of this project.
 
 ## Network Details
 
