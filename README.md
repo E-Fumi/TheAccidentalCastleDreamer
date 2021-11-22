@@ -1,6 +1,6 @@
 # The Accidental Castle Dreamer
 
-### First things first
+#### First things first
 
 This is a work in progress, and while the base of it is (passably) solid, various details are going to change in the coming weeks, hopefully bringing with them improvements in performance.
 
