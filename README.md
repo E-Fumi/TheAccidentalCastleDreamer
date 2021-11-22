@@ -1,9 +1,15 @@
 # The Accidental Castle Dreamer
 
+## First things first
+
+This is a work in progress, and while the base of it is (passably) solid, various details are going to change in the coming weeks, hopefully bringing with them improvements in performance.
+
 ## Intro
+
 This generative model is a [variational autoencoder](https://en.wikipedia.org/wiki/Variational_autoencoder) (or, more specifically, a [disentangled variational autoencoder](https://openreview.net/pdf?id=Sy2fzU9gl)) meant for the synthesis of architectural imagery. The data it works with is basically a large aggregation of vacation pictures, and it turns out that people are much more likely to take pictures of castles and churches than of regular office buildings, which in turn skews the model's reconstruction's probability landscape, hence the name of the project. <br/>
 
-The main idea is to have a neural network composed of two convolutional neural networks: an encoder and a decoder. The encoder is meant to encode data into a latent space vector (i.e. an arbitrarily-sized 1D array of float values), and the decoder is meant to reconstruct the original data from that same vector. Once successfully trained, the decoder would ideally be able to construct realistic synthetic data from any set of values in the same probability space as the latent space vectors encoded by the encoder for real data.<br/>
+The main idea is to have a neural network composed of two convolutional neural networks: an encoder and a decoder. The encoder is meant to encode data into a latent space vector (i.e. an arbitrarily-sized 1D array of float values), and the decoder is meant to reconstruct the original data from that same vector. However, this makes the neural network far more than a data compression and decompression algorithm. Once successfully trained, the decoder would ideally be able to construct realistic synthetic data from any set of values in the same probability space as the latent space encodings for real data.<br/>
+
 <br/>
 <p align="center">
   <img src="./VAECollage.png" width="548" height="548"><br/>
@@ -11,12 +17,22 @@ The main idea is to have a neural network composed of two convolutional neural n
   images comes from a random normal distribution.
  </p>
 <br/>
+
+Now, if the process described above were to take place without any further regularization baked into the model, one would have a classical autoencoder (not variational). The issue with it is that one would get data reconstruction, but data generation would be extremely unlikely. The network would be incentivized to overfit, assigning different latent space vectors to different training data inputs, but the space between those vectors would not decode to anything meaningful.<br/>
+
+There is a two-part solution to this problem:<br/>
+
+Firstly, the encoder does not just end up providing a set of deterministically chosen values that constitute the latent space vector. Instead, the encoder provides two values for each of the entries in the latent space vector: a mean, and a standard deviation. Each such set defines a statistical distribution from which one of the values in the latent space is then randomly sampled. This ensures that no one piece of data can be assigned to a single latent space vector, it has to be assigned to a distribution. <br/>
+
+However, with this change alone, the network would set the standard deviations to be arbitrarily small and the corresponding means to be distant from one another in the latent space, leading to no improvement at all, therefore...
+
+Secondly, a KL divergence term is added to the loss function. The Kullback–Leibler divergence is a measure of the difference between two statistical distributions. The KL divergence between each of the distributions from which values of the latent space vector are sampled and the normal distribution is calculated and added to the loss function. This forces the distributions to occupy some of the same space, and thus have some overlap.
+
+
 variational aspect<br/>
 disentanglement<br/>
 
 ## Network Details
-
-First things first, this is a work in progress, and while the base of it is (passably) solid, various details are going to change in the coming weeks, hopefully bringing with them improvements in performance.
 
 ### Data Preparation
 
@@ -29,18 +45,26 @@ Each ensemble model is composed of three identical networks that were trained in
 All pertinent scripts are in the 'transfer_learning' folder.<br/>
 
 ### Losses
+
 The overall loss function is composed of 3 independent components:<br/>
 - a simple reconstruction loss equal to the mean squared error between all corresponding values of the input and output tensors.<br/>
 - a KL-divergence loss function to incentivise the latent space distributions to occupy the same space. <br/>
 - a perceptual loss function (which I have only recently began tinkering with) hinging on a pre-trained network.<br/>
+
 ### Architecture
+
 Placeholder text.
+
 ### Monitoring
+
 Placeholder text.
+
 ### Hardware
+
 This code was developed and tested on a NVIDIA GeForce RTX 3070 Laptop GPU.
 
 ## Requirements
+
 python 3.x<br/>
 [Conda](https://docs.conda.io/en/latest/miniconda.html) (not strictly a requirement, but is likely to make running this project a great deal easier)<br/>
 Cuda drivers (necessary if you want to run this code on a GPU)<br/>
@@ -50,6 +74,7 @@ wget<br/>
 PIL
 
 ## Usage
+
 With [Conda](https://docs.conda.io/en/latest/miniconda.html):<br/>
 (should 'conda' not be recognized in the terminal, the following commands will also work in the conda/miniconda prompt)<br/>
 `conda install -c anaconda cudatoolkit`<br/>
@@ -60,7 +85,7 @@ With [Conda](https://docs.conda.io/en/latest/miniconda.html):<br/>
 `python main.py`<br/>
 
 Without Conda:<br/>
-(down this route you'll have to figure out the GPU side of things yourself, theoretically you could also run this code on a CPU, but it would be excruciatingly slow)<br/>
+(down this path you'll have to figure out the GPU side of things yourself, theoretically you could also run this code on a CPU, but it would be excruciatingly slow)<br/>
 `git clone https://github.com/E-Fumi/TheAccidentalCastleDreamer`<br/>
 `cd TheAccidentalCastleDreamer`<br/>
 `pip install -r requirements.txt`<br/>
