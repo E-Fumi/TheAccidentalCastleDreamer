@@ -65,7 +65,7 @@ All pertinent scripts are in the 'transfer_learning' folder.<br/>
 The overall loss function is composed of 3 independent components:<br/>
 - a simple reconstruction loss - the sum of squared errors between all corresponding values of the input and output tensors.<br/>
 - a KL-divergence loss function to incentivise the latent space distributions to occupy the same space, multiplied by a hyperparameter (beta). <br/>
-- a perceptual loss function (which I have only recently began tinkering with) hinging on a pre-trained computer vision model. The variational autoencoder's input and output images are passed through the pre-trained network, the activity of an early convolutional (or pooling) layer is compared for the two images, and the absolute error is calculated for the corresponding entries. This term is likewise multiplied by a hyperparameter (gamma). <br/>
+- a perceptual loss function (which I have only recently begun tinkering with) hinging on a pre-trained computer vision model. The variational autoencoder's input and output images are passed through the pre-trained network, the activity of an early convolutional (or pooling) layer is compared for the two images, and the absolute error is calculated for the corresponding entries. This term is likewise multiplied by a hyperparameter (gamma). <br/>
 
 ### Architecture
 
