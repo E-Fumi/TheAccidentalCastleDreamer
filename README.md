@@ -60,7 +60,7 @@ Each ensemble model is composed of three identical networks that were trained in
 
 All pertinent scripts are in the 'transfer_learning' folder.<br/>
 
-### Losses
+### Loss Function
 
 The overall loss function is composed of 3 independent components:<br/>
 - a simple reconstruction loss - the sum of squared errors between all corresponding values of the input and output tensors.<br/>
@@ -68,6 +68,8 @@ The overall loss function is composed of 3 independent components:<br/>
 - a perceptual loss function (which I have only recently begun tinkering with) hinging on a pre-trained computer vision model. The variational autoencoder's input and output images are passed through the pre-trained network, the activity of an early convolutional (or pooling) layer is compared for the two images, and the absolute error is calculated for the corresponding entries. This term is likewise multiplied by a hyperparameter (gamma). <br/>
 
 ### Architecture
+
+The encoder is built out of six blocks, each of which is comprised of two 2D convolutional layers and one 2D max pooling layer. The last max pooling layer is followed by a densely connected layer, which feeds into two further densely connected layers with the same size as the model's latent space dimension. One of these two layers holds the means, the other the variances, and they are followed by the sampling layer, which outputs the entries for the latent space vectors, sampled from the distributions defined by means and variances.<br/>
 
 <p align="center">
   <img src="./readme_media/encoder_architecture.png"><br/>
