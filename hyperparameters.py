@@ -1,6 +1,6 @@
 from tensorflow import keras
 
-parameters = {'name': 'test_8',
+parameters = {'name': 'MODEL_NAME_HERE',
               'epochs': 20,
               'batch_size': 32,
               'img_dim': 128,
