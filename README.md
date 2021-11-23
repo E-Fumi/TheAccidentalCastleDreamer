@@ -69,7 +69,9 @@ The overall loss function is composed of 3 independent components:<br/>
 
 ### Architecture
 
-Placeholder text.
+<p align="center">
+  <img src="./readme_media/decoder_architecture.png"><br/>
+ </p>
 
 ### Monitoring
 The reconstruction and perceptual loss terms' values alone cannot provide a detailed insight in the network's performance (mse is very forgiving of blurry images and perceptual loss functions are frequently very forgiving of visual artifacts). The project contains a 'to_reconstruct' folder with 12 pictures in it. During training, with a frequency of once every 1000 steps (can be changed in the hyperparameters file) the network's performance is monitored by saving reconstruction attempts of those 12 pictures in a local 'monitor_reconstruction' folder.<br/>
