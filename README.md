@@ -70,6 +70,10 @@ The overall loss function is composed of 3 independent components:<br/>
 ### Architecture
 
 <p align="center">
+  <img src="./readme_media/encoder_architecture.png"><br/>
+ </p>
+
+<p align="center">
   <img src="./readme_media/decoder_architecture.png"><br/>
  </p>
 
