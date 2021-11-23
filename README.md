@@ -72,11 +72,11 @@ The overall loss function is composed of 3 independent components:<br/>
 The encoder is built out of six blocks, each of which is comprised of two 2D convolutional layers and one 2D max pooling layer. The last max pooling layer is followed by a densely connected layer, which feeds into two further densely connected layers with the same size as the model's latent space dimension. One of these two layers holds the means, the other the variances, and they are followed by the sampling layer, which outputs the entries for the latent space vectors, sampled from the distributions defined by means and variances.<br/>
 
 <p align="center">
-  <img src="./readme_media/encoder_architecture.png"><br/>
+  <img src="./readme_media/EncoderArchitecture.png"><br/>
  </p>
 
 <p align="center">
-  <img src="./readme_media/decoder_architecture.png"><br/>
+  <img src="./readme_media/DecoderArchitecture.png"><br/>
  </p>
 
 ### Monitoring
