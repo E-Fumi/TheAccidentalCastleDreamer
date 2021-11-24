@@ -59,7 +59,8 @@ Images depicting architecture were selected from the original dataset by two ens
 Each ensemble model is composed of three identical networks that were trained independently of one another. The architecture of the individual networks is always an imagenet-pretrained Densenet201's convolutional base with three dense layers added at the end, trained on a smaller, painstakingly hand-annotated dataset (approximately 12,000 pictures in total). The smaller datasets were fed to a keras image data generator for data augmentation. Passing the original Google Landmarks Dataset v2 through both ensemble classifiers yields almost 400,000 images which are then used to train the variational autoencoder.<br/>
 
 All pertinent scripts are in the 'transfer_learning' folder.<br/>
-(I am yet to make the hand-annotated datasets available, but if you'd like to run my pre-trained models, you can just run deploy.py)<br/>
+
+(I am yet to make the hand-annotated datasets available. However, if you'd like to use my pre-trained models, you can just run deploy.py)<br/>
 
 ### Loss Function
 
