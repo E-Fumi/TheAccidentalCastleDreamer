@@ -17,17 +17,17 @@ This generative model is a [variational autoencoder](https://en.wikipedia.org/wi
 
 #### The Classical Autoencoder
 
-The main idea is to have a neural network composed of two convolutional neural networks: an encoder and a decoder. The encoder is meant to encode data into a latent space vector (i.e. an arbitrarily-sized 1D array of float values which represent a point in a latent space that has as many dimensions as there are entries in the array), and the decoder is meant to reconstruct the original data from that same vector. However, this makes the neural network far more than a data compression and decompression algorithm. Once successfully trained on a loss function that tracks data reconstruction quality, the decoder would ideally also be able to construct realistic synthetic data from any set of values in the same probability space as the latent space encodings of real data.<br/>
+The main idea is to have a model composed of two convolutional neural networks: an encoder and a decoder. The encoder is meant to encode data into a latent space vector (i.e. an arbitrarily-sized 1D array of float values which represent a point in a latent space that has as many dimensions as there are entries in the array), and the decoder is meant to reconstruct the original data from that same vector. However, this makes the neural network far more than a data compression and decompression algorithm. Once successfully trained on a loss function that tracks data reconstruction quality, the decoder would ideally also be able to construct realistic synthetic data from any set of values in the same probability space as the latent space encodings of real data.<br/>
 
 #### The Variational Autoencoder
 
-Now, if the process described above were to take place without any further regularization baked into the model, one would have data reconstruction, but data generation would be extremely unlikely. The network would be incentivized to overfit, assigning different latent space vectors to different training data inputs, but there would be no reason for the space between those vectors to decode anything meaningful.<br/>
+Now, if the process described above were to take place without any further regularization baked into the model, one would have data reconstruction, but data generation would be extremely unlikely. The network would be incentivized to overfit, assigning different latent space vectors to different training data inputs, but there would be no reason for the space between those vectors to decode into anything meaningful.<br/>
 
 There is a two-part solution to this problem, which gives rise to the variational autoencoder.<br/>
 
-Firstly, the encoder does not just provide a set of deterministically chosen values that constitute the latent space vector. Instead, the encoder provides two values for each of the entries in the latent space vector: a mean, and a standard deviation. Each such set defines a statistical distribution from which one of the values in the latent space vector is then randomly sampled. This ensures that no one piece of data can be assigned to a single latent space vector, it has to be assigned to a distribution.<br/>
+Firstly, the encoder does not just provide a set of deterministically chosen values that constitute the latent space vector. Instead, the encoder provides two values for each of the entries in the latent space vector: a mean, and a variance. Each such set defines a statistical distribution from which one of the values in the latent space vector is then randomly sampled. This ensures that no one piece of data can be assigned to a single latent space vector, it has to be assigned to a distribution.<br/>
 
-However, with this change alone, the standard deviations would grow to be arbitrarily small and the corresponding means to be distant from one another in the latent space, leading to no improvement at all, therefore...<br/>
+However, with this change alone, the variances would grow to be arbitrarily small and the corresponding means to be distant from one another in the latent space, leading to no improvement at all, therefore...<br/>
 
 Secondly, a KL divergence term is added to the loss function. The [Kullback–Leibler divergence](https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence) is a measure of the difference between two statistical distributions. The KL divergence between each of the distributions (from which values of the latent space vector are sampled) and the normal distribution is calculated and added to the loss function. This forces the distributions to occupy some of the same space, and thus have some overlap. This greatly increases the likelihood that a random latent space vector would decode to meaningful synthetic data, as long as its values do not stray too far outside a normal distribution.<br/>
 
@@ -42,7 +42,7 @@ This is, in a nutshell, what a variational autoencoder is.<br/>
 
 #### The Disentangled Variational Autoencoder
 
-A further, very interesting improvement can be brought about in a rather simple way. If the KL divergence loss term is weighed more, in comparison to the reconstruction loss term, then this forces the distributions even closer together. This, in turn, incentivizes the network to get the most bang for its buck with each of the dimensions in the latent space (and perhaps even having a few unused dimensions that bear no relevance for the network's output and that are set equal to a normal distribution so as to not contribute to the KL divergence loss term). The best way of acheiving that is orthogonality, as that is the only way of minimizing redundancy, and this is how the disentanglement emerges.<br/>
+A further, very interesting improvement can be brought about in a rather simple way. If the KL divergence loss term is weighed more, in comparison to the reconstruction loss term, then this forces the distributions even closer together. This, in turn, incentivizes the network to get the most bang for its buck with each of the dimensions in the latent space. The best way of acheiving that is orthogonality, as that is the only way of minimizing redundancy, and this is how the disentanglement emerges.<br/>
 
 In principle, if each of the latent space dimensions is disentangled, then each will represent an independent underlying feature within the data that the network is trained on. This allows for a very powerful measure of control in the synthesis of new data; a famous example is that of the [smile dimension](https://drek4537l1klr.cloudfront.net/chollet/Figures/08fig11_alt.jpg) in a disentangled variational autoencoder trained on a dataset of faces. Most intriguingly, this implies that the model has a semantic understanding of each of the disentangled features.<br/>
 
@@ -59,6 +59,7 @@ Images depicting architecture were selected from the original dataset by two ens
 Each ensemble model is composed of three identical networks that were trained independently of one another. The architecture of the individual networks is always an imagenet-pretrained Densenet201's convolutional base with three dense layers added at the end, trained on a smaller, painstakingly hand-annotated dataset (approximately 12,000 pictures in total). The smaller datasets were fed to a keras image data generator for data augmentation. Passing the original Google Landmarks Dataset v2 through both ensemble classifiers yields almost 400,000 images which are then used to train the variational autoencoder.<br/>
 
 All pertinent scripts are in the 'transfer_learning' folder.<br/>
+(I am yet to make the hand-annotated datasets available, but if you'd like to run my pre-trained models, you can just run deploy.py)<br/>
 
 ### Loss Function
 
