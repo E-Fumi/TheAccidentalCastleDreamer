@@ -1,10 +1,8 @@
 # The Accidental Castle Dreamer
 
-<br/>
 <p align="center">
   <img src="./readme_media/monitoring.gif"><br/>
  </p>
- <br/>
 
 ## Intro
 
@@ -12,7 +10,7 @@ This generative model is a [variational autoencoder](https://en.wikipedia.org/wi
 
 <br/>
 <p align="center">
-  <img src="./readme_media/example.png"><br/>
+  <img src="./readme_media/example.jpg"><br/>
  </p>
  <br/>
  
