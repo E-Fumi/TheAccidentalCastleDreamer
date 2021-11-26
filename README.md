@@ -1,12 +1,6 @@
 # The Accidental Castle Dreamer
 
-#### First things first
-
-This is a work in progress, and while the base of it is (passably) solid, various details are going to change in the coming weeks, hopefully bringing along improvements in performance.
-
 ## Intro
-
-#### The Project
 
 This generative model is a [variational autoencoder](https://en.wikipedia.org/wiki/Variational_autoencoder) (or, more specifically, a [disentangled variational autoencoder](https://openreview.net/pdf?id=Sy2fzU9gl)) meant for the synthesis of architectural imagery. The data it works with is essentially a large aggregation of vacation pictures, and it turns out that people are much more likely to take pictures of castles and churches than of regular office buildings, which in turn skews the model's generation probability landscape, hence the name of the project. <br/>
 
@@ -14,6 +8,8 @@ This generative model is a [variational autoencoder](https://en.wikipedia.org/wi
 <p align="center">
   <img src="./readme_media/example.jpg" width="312" height="96"><br/>
  </p>
+
+## Background
 
 #### The Classical Autoencoder
 
@@ -52,7 +48,7 @@ Obtaining a network that would have a significant measure of disentanglement bet
 
 ### Data Preparation
 
-All data used to train this network stems from the (Google Landmarks Dataset v2)[https://github.com/cvdfoundation/google-landmark], a crowdsourced collection of 5 million pictures of human-made and natural landmarks.<br/>
+All data used to train this network stems from the [Google Landmarks Dataset v2](https://github.com/cvdfoundation/google-landmark), a crowdsourced collection of 5 million pictures of human-made and natural landmarks.<br/>
 
 Images depicting architecture were selected from the original dataset by two ensemble classifiers. The first model discerns whether a picture is of a building or not, and the second discerns whether an image of a building is suitable or not (this latter task is admittedly vague and based on a set of arbitrary criteria such as whether a photo is blurry, whether a significant portion of the architecture is blocked by a vehicle, or whether the photo contains enough features of a building to infer its overall structure).<br/>
 
