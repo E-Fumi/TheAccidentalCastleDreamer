@@ -11,6 +11,7 @@ This generative model is a [variational autoencoder](https://en.wikipedia.org/wi
 <br/>
 <p align="center">
   <img src="./readme_media/example.jpg" width="224" height="80"><br/>
+  Examples of generated images
  </p>
  <br/>
  
