@@ -42,7 +42,7 @@ This is, in a nutshell, what a variational autoencoder is.<br/>
 
 #### The Disentangled Variational Autoencoder
 
-A further, very interesting improvement can be brought about in a rather simple way. If the KL divergence loss term is weighed more, in comparison to the reconstruction loss term, then this forces the distributions even closer together. This, in turn, incentivizes the network to get the most bang for its buck with each of the dimensions in the latent space. The best way of acheiving that is orthogonality, as that is the only way of minimizing redundancy, and this is how the disentanglement emerges.<br/>
+A further, very interesting improvement can be brought about in a rather simple way. If the KL divergence loss term is weighed more, in comparison to the reconstruction loss term, then this forces the distributions even closer together. This, in turn, incentivizes the network to get the most bang for its buck with each of the dimensions in the latent space. The best way of achieving that is orthogonality, as that is the only way of minimizing redundancy, and this is how the disentanglement emerges.<br/>
 
 In principle, if each of the latent space dimensions is disentangled, then each will represent an independent underlying feature within the data that the network is trained on. This allows for a very powerful measure of control in the synthesis of new data; a famous example is that of the [smile dimension](https://drek4537l1klr.cloudfront.net/chollet/Figures/08fig11_alt.jpg) in a disentangled variational autoencoder trained on a dataset of faces. Most intriguingly, this implies that the model has a semantic understanding of each of the disentangled features.<br/>
 
@@ -52,7 +52,7 @@ Obtaining a network that would have a significant measure of disentanglement bet
 
 ### Data Preparation
 
-All data used to train this network stems from the Google Landmarks Dataset v2, a crowdsourced collection of 5 million pictures of human-made and natural landmarks.<br/>
+All data used to train this network stems from the (Google Landmarks Dataset v2)[https://github.com/cvdfoundation/google-landmark], a crowdsourced collection of 5 million pictures of human-made and natural landmarks.<br/>
 
 Images depicting architecture were selected from the original dataset by two ensemble classifiers. The first model discerns whether a picture is of a building or not, and the second discerns whether an image of a building is suitable or not (this latter task is admittedly vague and based on a set of arbitrary criteria such as whether a photo is blurry, whether a significant portion of the architecture is blocked by a vehicle, or whether the photo contains enough features of a building to infer its overall structure).<br/>
 
