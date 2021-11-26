@@ -15,7 +15,6 @@ This generative model is a [variational autoencoder](https://en.wikipedia.org/wi
   <img src="./readme_media/genexample.png" width="336" height="120"><br/>
   Examples of generated images
  </p>
- <br/>
 
 #### How
 
@@ -51,6 +50,7 @@ This is, in a nutshell, what a variational autoencoder is.<br/>
   Each of these (admittedly somewhat cherry-picked)<br/>
   images comes from a random normal distribution.
  </p>
+<br/>
 
 #### The Disentangled Variational Autoencoder
 
