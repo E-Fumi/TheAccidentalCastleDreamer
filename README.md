@@ -27,7 +27,7 @@ The main idea is to have a model composed of two convolutional neural networks: 
 
 #### The Variational Autoencoder
 
-Now, if the process described above were to take place without any further regularization baked into the model, one would have data reconstruction, but data generation would be extremely unlikely. The network would be incentivized to overfit, assigning different latent space vectors to different training data inputs, but there would be no reason for the space between those vectors to decode into anything meaningful.<br/>
+If the process described above were to take place without any further regularization baked into the model, one would have data reconstruction, but data generation would be extremely unlikely. The network would be incentivized to overfit, assigning different latent space vectors to different training data inputs, but there would be no reason for the space between those vectors to decode into anything meaningful.<br/>
 
 There is a two-part solution to this problem, which gives rise to the variational autoencoder.<br/>
 
