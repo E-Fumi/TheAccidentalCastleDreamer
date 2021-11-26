@@ -7,7 +7,7 @@ This generative model is a [variational autoencoder](https://en.wikipedia.org/wi
 <p align="center">
   <img src="./readme_media/monitoring.gif"><br/>
  </p>
-
+Obtaining a network that would have a significant measure of disentanglement between dimensions representing architectural features (width of the windows, slant of a roof, etc...) represents the ultimate goal of this project.
 ## Background
 
 #### The Classical Autoencoder
@@ -40,8 +40,6 @@ This is, in a nutshell, what a variational autoencoder is.<br/>
 A further, very interesting improvement can be brought about in a rather simple way. If the KL divergence loss term is weighed more, in comparison to the reconstruction loss term, then this forces the distributions even closer together. This, in turn, incentivizes the network to get the most bang for its buck with each of the dimensions in the latent space. The best way of achieving that is orthogonality, as that is the only way of minimizing redundancy, and this is how the disentanglement emerges.<br/>
 
 In principle, if each of the latent space dimensions is disentangled, then each will represent an independent underlying feature within the data that the network is trained on. This allows for a very powerful measure of control in the synthesis of new data; a famous example is that of the [smile dimension](https://drek4537l1klr.cloudfront.net/chollet/Figures/08fig11_alt.jpg) in a disentangled variational autoencoder trained on a dataset of faces. Most intriguingly, this implies that the model has a semantic understanding of each of the disentangled features.<br/>
-
-Obtaining a network that would have a significant measure of disentanglement between dimensions representing architectural features (width of the windows, slant of a roof, etc...) represents the ultimate goal of this project.
 
 ## Network Details
 
