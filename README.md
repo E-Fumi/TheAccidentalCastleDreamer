@@ -23,7 +23,7 @@ If you are unfamiliar with autoencoders you may want to take a look at the 'Back
 
 #### Why
 
-The project is still evolving, and the coming weeks may see major changes in network architecture and performance. Obtaining a neural network with a significant measure of disentanglement between latent space dimensions representing architectural features (width of the windows, slant of a roof, etc...) represents the ultimate goal of this project.<br/>
+The project is still evolving, and the coming weeks may see major changes in network architecture and performance. Obtaining a neural network with a significant measure of disentanglement between latent space dimensions representing architectural features (colour of the walls, slant of a roof, etc...) represents the ultimate goal of this project.<br/>
 
 ## Background
 
