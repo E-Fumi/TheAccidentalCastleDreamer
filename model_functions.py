@@ -17,8 +17,8 @@ def train(hyper_parameters, optimizer):
     logging.info(hyper_parameters)
     utils.initialize_directories(hyper_parameters)
     utils.initialize_monitoring_distributions(hyper_parameters)
-    models = {'encoder': Encoder.Network(hyper_parameters['latent_dim']),
-              'decoder': Decoder.Network()}
+    models = {'encoder': Encoder.Encoder(hyper_parameters['latent_dim']),
+              'decoder': Decoder.Decoder()}
     for epoch in range(hyper_parameters['epochs']):
         for step, img_tensor_batch in enumerate(data.train_ds):
             progression = {'epoch': epoch, 'step': step}
