@@ -6,6 +6,8 @@
 
 ## Intro
 
+#### What
+
 This generative model is a [variational autoencoder](https://en.wikipedia.org/wiki/Variational_autoencoder) (or, more specifically, a [disentangled variational autoencoder](https://openreview.net/pdf?id=Sy2fzU9gl)) meant for the synthesis of architectural imagery. The data it works with is essentially a large aggregate of vacation pictures, and it turns out that people are much more likely to take pictures of castles and churches than of regular office buildings, which in turn skews the model's generation probability landscape, hence the name of the project. <br/>
 
 <br/>
@@ -14,10 +16,14 @@ This generative model is a [variational autoencoder](https://en.wikipedia.org/wi
   Examples of generated images
  </p>
  <br/>
- 
-The project is still evolving, and the coming weeks may see major changes in architecture and performance. Obtaining a neural network with a significant measure of disentanglement between latent space dimensions representing architectural features (width of the windows, slant of a roof, etc...) represents the ultimate goal of this project.<br/>
 
-If you are unfamiliar with autoencoders (variational, disentangled or otherwise) you may want to peruse the 'Background' section just below. Some more examples of generated images showcasing what the model can learn at this stage can also be found there. If you want to run this code to train a model from scratch and play around with hyperparameters, you can do so following the instructions in the 'Usage' section.<br/>
+#### How
+
+If you are unfamiliar with autoencoders you may want to take a look at the 'Background' section just below. Some more examples of generated images showcasing what the model can learn at this stage can also be found there. If you want to run this code to train a model from scratch and play around with hyperparameters, you can do so following the instructions in the 'Usage' section.<br/>
+
+#### Why
+
+The project is still evolving, and the coming weeks may see major changes in network architecture and performance. Obtaining a neural network with a significant measure of disentanglement between latent space dimensions representing architectural features (width of the windows, slant of a roof, etc...) represents the ultimate goal of this project.<br/>
 
 ## Background
 
