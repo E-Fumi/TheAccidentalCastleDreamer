@@ -82,7 +82,7 @@ The encoder is built out of six blocks, each of which is comprised of two 2D con
   <img src="./readme_media/EncoderArchitecture.png"><br/>
  </p>
 
-The decoder takes the output of the sampling layer (or any one-dimensional array of the appropriate size), and feeds it into a densely connected layer the output of which is then reshaped so that it may be followed by a convolutional layer. The rest of the decoder is built out of five blocks which are comprised by a 2D upsampling layer followed by two 2D convolutional layers. The last block is followed by a last convolutional layer which outputs the reconstructed (or generated) image.<br/>
+The decoder takes the output of the sampling layer (or any one-dimensional array of the appropriate size), and feeds it into a densely connected layer the output of which is then reshaped so that it may be followed by a convolutional layer. The rest of the decoder is built out of five blocks which are comprised of a 2D upsampling layer followed by two 2D convolutional layers. The last block is followed by a last convolutional layer which outputs the reconstructed (or generated) image.<br/>
 
 <p align="center">
   <img src="./readme_media/DecoderArchitecture.png"><br/>
