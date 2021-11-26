@@ -3,9 +3,9 @@ from tensorflow import keras
 from tensorflow.keras import layers
 
 
-class Network(keras.Model):
+class Encoder(keras.Model):
     def __init__(self, latent_space_dim):
-        super(Network, self).__init__()
+        super(Encoder, self).__init__()
         self.Block_1 = custom.EncoderBlock(64, 64)
         self.Block_2 = custom.EncoderBlock(64, 64)
         self.Block_3 = custom.EncoderBlock(128, 128)
