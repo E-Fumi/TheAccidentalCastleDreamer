@@ -42,7 +42,7 @@ This is, in a nutshell, what a variational autoencoder is.<br/>
 <br/>
 <p align="center">
   <img src="./readme_media/VAECollage.png" width="548" height="548"><br/>
-  Each of these (admittedly somewhat cherrypicked)<br/>
+  Each of these (admittedly somewhat cherry-picked)<br/>
   images comes from a random normal distribution.
  </p>
 
