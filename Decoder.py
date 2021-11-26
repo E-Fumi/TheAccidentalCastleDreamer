@@ -3,9 +3,9 @@ from tensorflow import keras
 from tensorflow.keras import layers
 
 
-class Network(keras.Model):
+class Decoder(keras.Model):
     def __init__(self):
-        super(Network, self).__init__()
+        super(Decoder, self).__init__()
         self.Dense = layers.Dense(1024, activation="relu")
         self.Reshape = layers.Reshape((4, 4, 64))
         self.Block_1 = custom.DecoderBlock(512, 512)
