@@ -3,10 +3,9 @@
 ## Intro
 
 This generative model is a [variational autoencoder](https://en.wikipedia.org/wiki/Variational_autoencoder) (or, more specifically, a [disentangled variational autoencoder](https://openreview.net/pdf?id=Sy2fzU9gl)) meant for the synthesis of architectural imagery. The data it works with is essentially a large aggregation of vacation pictures, and it turns out that people are much more likely to take pictures of castles and churches than of regular office buildings, which in turn skews the model's generation probability landscape, hence the name of the project. <br/>
-
 <br/>
 <p align="center">
-  <img src="./readme_media/example.jpg" width="312" height="96"><br/>
+  <img src="./readme_media/monitoring.gif"><br/>
  </p>
 
 ## Background
@@ -80,13 +79,9 @@ The decoder takes the output of the sampling layer (or any one-dimensional array
  </p>
 
 ### Monitoring
-The reconstruction and perceptual loss terms' values alone cannot provide a detailed insight in the network's performance (mse is very forgiving of blurry images and perceptual loss functions are frequently very forgiving of visual artifacts). The project contains a 'to_reconstruct' folder with 12 pictures in it. During training, with a frequency of once every 1000 steps (can be changed in the hyperparameters file) the network's performance is monitored by saving reconstruction attempts of those 12 pictures in a local 'monitor_reconstruction' folder.<br/>
-
-<p align="center">
-  <img src="./readme_media/monitoring.gif"><br/>
- </p>
+The reconstruction and perceptual loss terms' values alone cannot provide a detailed insight in the network's performance (mse is very forgiving of blurry images and perceptual loss functions are frequently very forgiving of visual artifacts). The project contains a 'to_reconstruct' folder with 12 pictures in it. During training, with a frequency of once every 1000 steps (can be changed in the hyperparameters file) the network's performance is monitored by saving reconstruction attempts of those 12 pictures in a local 'monitor_reconstruction' folder - this is what the gif above is based on.<br/>
  
-Analogously, 12 random latent space vectors from a normal distribution are generated at the start of training, and every 1000 steps they are decoded into images and saved in a local 'monitor_generation' folder. Once training and testing are concluded, 100 random latent space vectors are decoded into images and saved in a local 'demo_{model_name}' folder.
+Analogously, 12 random latent space vectors from a normal distribution are generated at the start of training, and every 1000 steps they are decoded into images and saved in a local 'monitor_generation' folder. Once training and testing are concluded, 100 random latent space vectors are decoded into images and saved in a local 'demo_{model_name}' folder.<br/>
 
 ### Hardware
 
