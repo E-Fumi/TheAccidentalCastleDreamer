@@ -6,7 +6,7 @@
 
 ## Intro
 
-This generative model is a [variational autoencoder](https://en.wikipedia.org/wiki/Variational_autoencoder) (or, more specifically, a [disentangled variational autoencoder](https://openreview.net/pdf?id=Sy2fzU9gl)) meant for the synthesis of architectural imagery. The data it works with is essentially a large aggregation of vacation pictures, and it turns out that people are much more likely to take pictures of castles and churches than of regular office buildings, which in turn skews the model's generation probability landscape, hence the name of the project. <br/>
+This generative model is a [variational autoencoder](https://en.wikipedia.org/wiki/Variational_autoencoder) (or, more specifically, a [disentangled variational autoencoder](https://openreview.net/pdf?id=Sy2fzU9gl)) meant for the synthesis of architectural imagery. The data it works with is essentially a large aggregate of vacation pictures, and it turns out that people are much more likely to take pictures of castles and churches than of regular office buildings, which in turn skews the model's generation probability landscape, hence the name of the project. <br/>
 
 <br/>
 <p align="center">
@@ -15,7 +15,7 @@ This generative model is a [variational autoencoder](https://en.wikipedia.org/wi
  </p>
  <br/>
  
-Obtaining a network that would have a significant measure of disentanglement between dimensions representing architectural features (width of the windows, slant of a roof, etc...) represents the ultimate goal of this project.<br/>
+The project is still evolving, and the coming weeks may see major changes in architecture and performance. Obtaining a neural network with a significant measure of disentanglement between latent space dimensions representing architectural features (width of the windows, slant of a roof, etc...) represents the ultimate goal of this project.<br/>
 
 ## Background
 
