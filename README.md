@@ -1,12 +1,18 @@
 # The Accidental Castle Dreamer
 
+<br/>
+<p align="center">
+  <img src="./readme_media/monitoring.gif"><br/>
+ </p>
+ <br/>
+
 ## Intro
 
 This generative model is a [variational autoencoder](https://en.wikipedia.org/wiki/Variational_autoencoder) (or, more specifically, a [disentangled variational autoencoder](https://openreview.net/pdf?id=Sy2fzU9gl)) meant for the synthesis of architectural imagery. The data it works with is essentially a large aggregation of vacation pictures, and it turns out that people are much more likely to take pictures of castles and churches than of regular office buildings, which in turn skews the model's generation probability landscape, hence the name of the project. <br/>
 
 <br/>
 <p align="center">
-  <img src="./readme_media/monitoring.gif"><br/>
+  <img src="./readme_media/example.png"><br/>
  </p>
  <br/>
  
