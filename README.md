@@ -15,7 +15,7 @@ This generative model is a [variational autoencoder](https://en.wikipedia.org/wi
  </p>
 <br/>
 
-If you are unfamiliar with autoencoders I reccomend you refer to the 'Background' section just below. Some more examples of generated images showcasing what the model can learn at this stage can also be found there. If you want to run this code to train a model from scratch and play around with hyperparameters, you can do so following the instructions in the 'Usage' section.<br/>
+If you are unfamiliar with autoencoders you can refer to the 'Background' section just below. Some more examples of generated images showcasing what the model can learn at this stage can also be found there. If you want to run this code to train a model from scratch and play around with hyperparameters, you can do so following the instructions in the 'Usage' section.<br/>
 
 The project is still evolving, and the coming weeks may see major changes in network architecture and performance. Obtaining a neural network with a significant measure of disentanglement between latent space dimensions representing architectural features (colour of the walls, slant of a roof, etc...) represents the ultimate goal of this project.<br/>
 
